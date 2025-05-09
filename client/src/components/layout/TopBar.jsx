@@ -30,7 +30,10 @@ const TopBar = () => {
   const searchRef = useRef(null);
   const navigate = useNavigate();
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
-  const { showSidebar, toggleSidebar } = useContext(SidebarContext);
+  const { toggleSidebar } = useContext(SidebarContext);
+  const [showSidebar, setShowSidebar] = useState(false);
+
+
 
   // Default avatar if no user or no profile image
   const defaultAvatar = "/assets/images/default-avatar.png";
@@ -402,6 +405,27 @@ const TopBar = () => {
                 alt="SkillSync"
               />
             </div> */}
+
+            {showSidebar  && (
+              <Link to="/" className="flex items-center space-x-3">
+                          <div className="h-10 w-10 rounded-2xl bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center animate-pulse-slow">
+                            <span className="text-white font-bold text-2xl tracking-wide">S</span>
+                          </div>
+                          <div className="flex flex-col">
+                            <span className="text-2xl font-bold relative">
+                              <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent animate-pulse-slow">
+                                Skill
+                              </span>
+                              <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent animate-pulse-slow ml-1" style={{ animationDelay: '1s' }}>
+                                Sync
+                              </span>
+                            </span>
+                            <div className="h-1 w-16 bg-gradient-to-r from-blue-600 to-indigo-600 transform translate-y-0.5 rounded-full animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
+                          </div>
+                        </Link>
+            )}
+
+
             {/* Search Bar */}
             <div className="flex-1 flex items-center justify-center sm:justify-center relative" ref={searchRef}>
               <div className="relative w-full max-w-lg">
@@ -465,7 +489,10 @@ const TopBar = () => {
             {/* Actions */}
             <div className="flex items-center space-x-4">
             <button
-                onClick={toggleSidebar}
+                onClick={()=>{
+                  toggleSidebar();
+                  setShowSidebar(prevState => !prevState);
+                }}
                 className="p-2 rounded-xl bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-900 dark:to-blue-700 text-blue-700 dark:text-blue-200 hover:scale-105 transition shadow"
                 aria-label="Toggle sidebar"
               >
