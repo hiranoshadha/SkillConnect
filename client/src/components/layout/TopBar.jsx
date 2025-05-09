@@ -6,6 +6,7 @@ import { ThemeContext } from '../../contexts/ThemeContext';
 import { useAuth } from '../../hooks/useAuth';
 import { api } from '../../utils/api';
 import { createClient } from '@supabase/supabase-js';
+import { SidebarContext } from '../../contexts/SidebarContext';
 
 // Initialize Supabase client
 const supabaseUrl = import.meta.env.VITE_SUPABASE_URL;
@@ -29,6 +30,7 @@ const TopBar = () => {
   const searchRef = useRef(null);
   const navigate = useNavigate();
   const [unreadNotificationsCount, setUnreadNotificationsCount] = useState(0);
+  const { showSidebar, toggleSidebar } = useContext(SidebarContext);
 
   // Default avatar if no user or no profile image
   const defaultAvatar = "/assets/images/default-avatar.png";
@@ -403,7 +405,7 @@ const TopBar = () => {
               )}
 
               <div className="hidden sm:ml-6 sm:flex sm:items-center relative" ref={searchRef}>
-                <div className="relative">
+                <div className="relative w-full md:w-80 lg:w-96">
                   <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                     <SearchIcon className="h-5 w-5 text-gray-400" />
                   </div>
@@ -465,6 +467,15 @@ const TopBar = () => {
             </div>
 
             <div className="flex items-center space-x-4">
+
+            <button
+              onClick={toggleSidebar}
+              className="p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-700 "
+              aria-label="Toggle sidebar"
+            >
+              <MenuIcon className="h-6 w-6" />
+            </button>
+
               {/* Theme Toggle Button */}
               <button
                 onClick={toggleTheme}
