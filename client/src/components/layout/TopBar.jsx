@@ -318,10 +318,12 @@ const TopBar = () => {
       <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
         Add Photos/Videos (Max 3)
       </label>
-
-      <div className="flex flex-wrap gap-2 mb-3">
+      <div className="flex flex-wrap gap-3 mb-3">
         {mediaFiles.map((media, index) => (
-          <div key={index} className="relative w-24 h-24 border rounded-md overflow-hidden">
+          <div
+            key={index}
+            className="relative w-24 h-24 rounded-2xl overflow-hidden shadow-md bg-white/30 backdrop-blur-lg border border-gray-200 dark:border-slate-700"
+          >
             {media.type === 'image' ? (
               <img
                 src={media.preview}
@@ -338,24 +340,22 @@ const TopBar = () => {
             <button
               type="button"
               onClick={() => removeMediaFile(index)}
-              className="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 w-5 h-5 flex items-center justify-center"
+              className="absolute top-1 right-1 bg-gradient-to-br from-pink-500 to-red-500 text-white rounded-full p-1 w-6 h-6 flex items-center justify-center shadow-lg hover:scale-110 transition"
             >
-              <XIcon className="h-3 w-3" />
+              <XIcon className="h-4 w-4" />
             </button>
           </div>
         ))}
-
         {mediaFiles.length < 3 && (
           <button
             type="button"
             onClick={() => fileInputRef.current.click()}
-            className="w-24 h-24 border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-md flex items-center justify-center text-gray-400 hover:text-gray-500 dark:text-gray-500 dark:hover:text-gray-400"
+            className="w-24 h-24 border-2 border-dashed border-blue-300 dark:border-blue-700 rounded-2xl flex items-center justify-center bg-white/40 dark:bg-slate-800/40 hover:bg-blue-50 dark:hover:bg-blue-900/40 transition"
           >
-            <PhotographIcon className="h-8 w-8" />
+            <PhotographIcon className="h-8 w-8 text-blue-400" />
           </button>
         )}
       </div>
-
       <input
         type="file"
         ref={fileInputRef}
@@ -364,16 +364,15 @@ const TopBar = () => {
         multiple
         className="hidden"
       />
-
       {isUploading && (
         <div className="mt-2">
-          <div className="w-full bg-gray-200 rounded-full h-2.5 dark:bg-gray-700">
+          <div className="w-full bg-blue-100 dark:bg-blue-900 rounded-full h-2.5">
             <div
-              className="bg-blue-600 h-2.5 rounded-full"
+              className="bg-gradient-to-r from-blue-400 to-blue-600 h-2.5 rounded-full transition-all duration-300"
               style={{ width: `${uploadProgress}%` }}
             ></div>
           </div>
-          <p className="text-xs text-gray-500 dark:text-gray-400 mt-1">
+          <p className="text-xs text-blue-600 dark:text-blue-300 mt-1">
             Uploading media... {Math.round(uploadProgress)}%
           </p>
         </div>
@@ -381,74 +380,72 @@ const TopBar = () => {
     </div>
   );
 
+
   return (
     <>
-      <header className="bg-white dark:bg-slate-800 shadow-sm z-10">
-        <div className="px-4 sm:px-6 lg:px-8">
-          <div className="flex justify-between h-16">
-            {isMobile && (
-              <div className="flex items-center">
-                <button
-                  onClick={() => setShowMobileMenu(!showMobileMenu)}
-                  className="p-2 rounded-md text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-700"
-                >
-                  <MenuIcon className="h-6 w-6" />
-                </button>
-              </div>
-            )}
-
-            <div className="flex-1 flex items-center justify-center sm:justify-start">
-              {isMobile && (
-                <div className="flex-shrink-0 flex items-center">
-                  <img className="h-8 w-auto" src="/assets/images/logo.svg" alt="SkillSync" />
+      {/* Glassmorphic TopBar */}
+      <header className="backdrop-blur-md bg-white/70 dark:bg-slate-900/70 shadow-lg z-10 border-b border-slate-200 dark:border-slate-800">
+        <div className="px-6 sm:px-10 lg:px-16">
+          <div className="flex justify-between h-20 items-center">
+            {/* Logo */}
+            {/* <div className="flex items-center space-x-3">
+              <button
+                onClick={toggleSidebar}
+                className="p-2 rounded-xl bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-900 dark:to-blue-700 text-blue-700 dark:text-blue-200 hover:scale-105 transition shadow"
+                aria-label="Toggle sidebar"
+              >
+                <MenuIcon className="h-6 w-6" />
+              </button>
+              <img
+                className="h-10 w-auto rounded-xl shadow"
+                src="/assets/images/logo.svg"
+                alt="SkillSync"
+              />
+            </div> */}
+            {/* Search Bar */}
+            <div className="flex-1 flex items-center justify-center sm:justify-center relative" ref={searchRef}>
+              <div className="relative w-full max-w-lg">
+                <div className="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                  <SearchIcon className="h-5 w-5 text-blue-400" />
                 </div>
-              )}
-
-              <div className="hidden sm:ml-6 sm:flex sm:items-center relative" ref={searchRef}>
-                <div className="relative w-full md:w-80 lg:w-96">
-                  <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                    <SearchIcon className="h-5 w-5 text-gray-400" />
-                  </div>
-                  <input
-                    className="block w-full pl-10 pr-3 py-2 border border-gray-200 rounded-xl text-sm placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:placeholder-gray-400 dark:text-white"
-                    placeholder="Search for users..."
-                    type="search"
-                    value={searchQuery}
-                    onChange={handleSearchChange}
-                  />
-                </div>
-
+                <input
+                  className="block w-full pl-12 pr-4 py-3 rounded-2xl text-base font-medium bg-white/70 dark:bg-slate-800/70 border border-blue-100 dark:border-slate-700 shadow focus:ring-2 focus:ring-blue-400 focus:border-blue-400 dark:focus:ring-blue-700 dark:focus:border-blue-700 placeholder-blue-300 dark:placeholder-blue-500 text-blue-900 dark:text-blue-100 transition"
+                  placeholder="Search for users..."
+                  type="search"
+                  value={searchQuery}
+                  onChange={handleSearchChange}
+                />
                 {/* Search Results Dropdown */}
                 {showSearchResults && (
-                  <div className="absolute top-full left-0 mt-2 w-full bg-white dark:bg-slate-800 rounded-lg shadow-lg z-50 max-h-96 overflow-y-auto">
+                  <div className="absolute top-full left-0 mt-2 w-full bg-white/90 dark:bg-slate-900/90 rounded-2xl shadow-xl z-50 max-h-96 overflow-y-auto border border-blue-100 dark:border-slate-700 backdrop-blur-md">
                     {isSearching ? (
-                      <div className="p-4 text-center text-gray-500 dark:text-gray-400">
-                        <div className="animate-spin rounded-full h-6 w-6 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
-                        <p className="mt-2">Searching...</p>
+                      <div className="p-6 text-center text-blue-400">
+                        <div className="animate-spin rounded-full h-8 w-8 border-t-2 border-b-2 border-blue-500 mx-auto"></div>
+                        <p className="mt-3 font-semibold">Searching...</p>
                       </div>
                     ) : searchResults.length > 0 ? (
                       <ul>
                         {searchResults.map(user => (
                           <li
                             key={user.userId}
-                            className="px-4 py-3 hover:bg-gray-100 dark:hover:bg-slate-700 cursor-pointer"
+                            className="px-5 py-4 hover:bg-blue-50 dark:hover:bg-blue-900/30 cursor-pointer rounded-xl transition"
                             onClick={() => navigateToProfile(user.userId)}
                           >
                             <div className="flex items-center">
                               <img
                                 src={user.profileImage || "/assets/images/default-avatar.png"}
                                 alt={`${user.firstName} ${user.lastName}`}
-                                className="h-10 w-10 rounded-full mr-3 object-cover"
-                                onError={(e) => {
+                                className="h-12 w-12 rounded-full mr-4 object-cover border-2 border-blue-100 dark:border-blue-700"
+                                onError={e => {
                                   e.target.onerror = null;
                                   e.target.src = "/assets/images/default-avatar.png";
                                 }}
                               />
                               <div>
-                                <p className="font-medium text-gray-900 dark:text-white">
+                                <p className="font-semibold text-blue-900 dark:text-blue-100">
                                   {user.firstName} {user.lastName}
                                 </p>
-                                <p className="text-sm text-gray-500 dark:text-gray-400">
+                                <p className="text-sm text-blue-400 dark:text-blue-300">
                                   @{user.username}
                                 </p>
                               </div>
@@ -457,7 +454,7 @@ const TopBar = () => {
                         ))}
                       </ul>
                     ) : searchQuery.trim().length >= 2 ? (
-                      <div className="p-4 text-center text-gray-500 dark:text-gray-400">
+                      <div className="p-6 text-center text-blue-400">
                         No users found matching "{searchQuery}"
                       </div>
                     ) : null}
@@ -465,76 +462,61 @@ const TopBar = () => {
                 )}
               </div>
             </div>
-
+            {/* Actions */}
             <div className="flex items-center space-x-4">
-
             <button
-              onClick={toggleSidebar}
-              className="p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-700 "
-              aria-label="Toggle sidebar"
-            >
-              <MenuIcon className="h-6 w-6" />
-            </button>
-
-              {/* Theme Toggle Button */}
+                onClick={toggleSidebar}
+                className="p-2 rounded-xl bg-gradient-to-br from-blue-100 to-blue-300 dark:from-blue-900 dark:to-blue-700 text-blue-700 dark:text-blue-200 hover:scale-105 transition shadow"
+                aria-label="Toggle sidebar"
+              >
+                <MenuIcon className="h-6 w-6" />
+              </button>
+              {/* Theme Toggle */}
               <button
                 onClick={toggleTheme}
-                className="p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-700"
+                className="p-2 rounded-xl bg-gradient-to-br from-yellow-100 to-yellow-300 dark:from-slate-700 dark:to-slate-800 text-yellow-600 dark:text-yellow-200 hover:scale-105 transition shadow"
                 aria-label="Toggle dark mode"
               >
-                {darkMode ? (
-                  <SunIcon className="h-6 w-6" />
-                ) : (
-                  <MoonIcon className="h-6 w-6" />
-                )}
+                {darkMode ? <SunIcon className="h-6 w-6" /> : <MoonIcon className="h-6 w-6" />}
               </button>
-
+              {/* Notifications */}
               <Link to="/notifications">
-                <button className="relative p-1.5 rounded-lg text-gray-500 hover:text-gray-700 hover:bg-gray-100 dark:text-gray-400 dark:hover:text-gray-200 dark:hover:bg-slate-700">
+                <button className="relative p-2 rounded-xl bg-gradient-to-br from-pink-100 to-pink-300 dark:from-pink-900 dark:to-pink-700 text-pink-700 dark:text-pink-200 hover:scale-105 transition shadow">
                   <BellIcon className="h-6 w-6" />
                   {unreadNotificationsCount > 0 && (
-                    <span className="absolute top-0 right-0 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white transform translate-x-1/2 -translate-y-1/2 bg-red-500 rounded-full">
+                    <span className="absolute -top-1 -right-1 inline-flex items-center justify-center px-2 py-1 text-xs font-bold leading-none text-white bg-red-500 rounded-full shadow">
                       {unreadNotificationsCount > 99 ? '99+' : unreadNotificationsCount}
                     </span>
                   )}
                 </button>
               </Link>
-
-
+              {/* Create Post */}
               {!isMobile && (
                 <button
                   onClick={() => setShowCreatePostModal(true)}
-                  className="w-full flex items-center justify-center px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-xl transition-all duration-200 shadow-md hover:shadow-lg transform hover:scale-[1.02]"
+                  className="flex items-center px-5 py-2.5 bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold rounded-2xl shadow-lg hover:scale-105 hover:from-blue-600 hover:to-indigo-700 transition-all duration-200"
                 >
-
-                  <span className="mr-2">+</span> Create Post
+                  <PlusIcon className="h-5 w-5 mr-2" /> Create Post
                 </button>
               )}
-
-              <div className="relative">
+              {/* Profile Avatar */}
+              <div className="relative group">
                 <Link to="/profile">
-                  <button className="flex rounded-full bg-gray-100 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-slate-700">
-                  <div className="h-7 w-7 rounded-full overflow-hidden flex items-center justify-center bg-gray-100 dark:bg-slate-700">
-                    <img
-                      className="h-full w-full object-cover"
-                      src={profileImage}
-                      alt={currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "User avatar"}
-                      onError={(e) => {
-                        e.target.onerror = null;
-                        e.target.src = defaultAvatar;
-                      }}
-                    />
-                  </div>
+                  <button className="flex rounded-full bg-blue-100 dark:bg-blue-900 shadow p-1.5">
+                    <div className="h-9 w-9 rounded-full overflow-hidden flex items-center justify-center bg-white dark:bg-slate-700">
+                      <img
+                        className="h-full w-full object-cover"
+                        src={profileImage}
+                        alt={currentUser ? `${currentUser.firstName} ${currentUser.lastName}` : "User avatar"}
+                        onError={e => {
+                          e.target.onerror = null;
+                          e.target.src = defaultAvatar;
+                        }}
+                      />
+                    </div>
                   </button>
                 </Link>
-                {currentUser && (
-                  <div className="hidden group-hover:block absolute right-0 mt-2 w-48 bg-white dark:bg-slate-800 rounded-md shadow-lg py-1 z-10">
-                    <div className="px-4 py-2 text-sm text-gray-700 dark:text-gray-200">
-                      <p className="font-medium">{currentUser.firstName} {currentUser.lastName}</p>
-                      <p className="text-xs text-gray-500 dark:text-gray-400">@{currentUser.username}</p>
-                    </div>
-                  </div>
-                )}
+                {/* Profile Dropdown (optional, can be improved further) */}
               </div>
             </div>
           </div>
@@ -543,88 +525,83 @@ const TopBar = () => {
 
       {/* Create Post Modal */}
       {showCreatePostModal && (
-        <div className="fixed inset-0 z-50 overflow-y-auto">
-          <div className="flex items-center justify-center min-h-screen pt-4 px-4 pb-20 text-center sm:block sm:p-0">
-            <div className="fixed inset-0 transition-opacity" aria-hidden="true">
-              <div className="absolute inset-0 bg-gray-500 dark:bg-gray-900 opacity-75"></div>
-            </div>
-
-            <span className="hidden sm:inline-block sm:align-middle sm:h-screen" aria-hidden="true">​</span>
-
-            <div className="inline-block align-bottom bg-white dark:bg-slate-800 rounded-lg text-left overflow-hidden shadow-xl transform transition-all sm:my-8 sm:align-middle sm:max-w-lg sm:w-full">
-              <div className="absolute top-0 right-0 pt-4 pr-4">
+        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/30 backdrop-blur-sm">
+          <div className="relative bg-white/90 dark:bg-slate-900/90 rounded-3xl shadow-2xl max-w-lg w-full mx-4 p-8 border border-blue-100 dark:border-slate-700 animate-fadeIn">
+            <button
+              onClick={() => setShowCreatePostModal(false)}
+              className="absolute top-4 right-4 text-blue-400 hover:text-blue-600 dark:text-blue-300 dark:hover:text-blue-100 transition"
+            >
+              <XIcon className="h-7 w-7" />
+            </button>
+            <h3 className="text-2xl font-extrabold text-blue-900 dark:text-blue-100 mb-6">
+              Create a New Post
+            </h3>
+            {error && (
+              <div className="mb-4 p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg">
+                {error}
+              </div>
+            )}
+            <form onSubmit={handleCreatePost}>
+              <div className="mb-4">
+                <label htmlFor="postTitle" className="block text-sm font-semibold text-blue-800 dark:text-blue-200 mb-1">
+                  Title
+                </label>
+                <input
+                  type="text"
+                  id="postTitle"
+                  value={postTitle}
+                  onChange={e => setPostTitle(e.target.value)}
+                  className="w-full px-4 py-3 border border-blue-100 dark:border-slate-700 rounded-xl bg-white/60 dark:bg-slate-800/60 shadow focus:ring-2 focus:ring-blue-400 focus:border-blue-400 dark:focus:ring-blue-700 dark:focus:border-blue-700 text-blue-900 dark:text-blue-100"
+                  placeholder="Enter a title for your post"
+                />
+              </div>
+              <div className="mb-4">
+                <label htmlFor="postContent" className="block text-sm font-semibold text-blue-800 dark:text-blue-200 mb-1">
+                  Content
+                </label>
+                <textarea
+                  id="postContent"
+                  value={postContent}
+                  onChange={e => setPostContent(e.target.value)}
+                  rows={5}
+                  className="w-full px-4 py-3 border border-blue-100 dark:border-slate-700 rounded-xl bg-white/60 dark:bg-slate-800/60 shadow focus:ring-2 focus:ring-blue-400 focus:border-blue-400 dark:focus:ring-blue-700 dark:focus:border-blue-700 text-blue-900 dark:text-blue-100"
+                  placeholder="What's on your mind?"
+                  required
+                />
+              </div>
+              {mediaUploadSection}
+              <div className="mt-7 flex justify-end space-x-4">
                 <button
+                  type="button"
                   onClick={() => setShowCreatePostModal(false)}
-                  className="text-gray-400 hover:text-gray-500 dark:text-gray-300 dark:hover:text-gray-200 focus:outline-none"
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-gray-200 to-gray-300 dark:from-slate-700 dark:to-slate-800 text-blue-700 dark:text-blue-200 font-semibold hover:from-gray-300 hover:to-gray-400 dark:hover:from-slate-800 dark:hover:to-slate-900 transition"
                 >
-                  <XIcon className="h-6 w-6" />
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-5 py-2 rounded-xl bg-gradient-to-r from-blue-500 to-indigo-600 text-white font-semibold shadow-lg hover:from-blue-600 hover:to-indigo-700 transition disabled:opacity-50 disabled:cursor-not-allowed"
+                >
+                  {isSubmitting ? 'Posting...' : 'Post'}
                 </button>
               </div>
-
-              <div className="px-4 pt-5 pb-4 sm:p-6 sm:pb-4">
-                <h3 className="text-lg leading-6 font-medium text-gray-900 dark:text-white mb-4">Create a New Post</h3>
-
-                {error && (
-                  <div className="mb-4 p-3 bg-red-100 border border-red-400 text-red-700 rounded-lg">
-                    {error}
-                  </div>
-                )}
-
-                <form onSubmit={handleCreatePost}>
-                  <div className="mb-4">
-                    <label htmlFor="postTitle" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Title
-                    </label>
-                    <input
-                      type="text"
-                      id="postTitle"
-                      value={postTitle}
-                      onChange={(e) => setPostTitle(e.target.value)}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
-                      placeholder="Enter a title for your post"
-                    />
-                  </div>
-
-                  <div className="mb-4">
-                    <label htmlFor="postContent" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                      Content
-                    </label>
-                    <textarea
-                      id="postContent"
-                      value={postContent}
-                      onChange={(e) => setPostContent(e.target.value)}
-                      rows={5}
-                      className="w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500 dark:bg-slate-700 dark:border-slate-600 dark:text-white"
-                      placeholder="What's on your mind?"
-                      required
-                    />
-                  </div>
-                  {mediaUploadSection}
-                  <div className="mt-5 sm:mt-6 flex justify-end space-x-3">
-                    <button
-                      type="button"
-                      onClick={() => setShowCreatePostModal(false)}
-                      className="px-4 py-2 bg-gray-200 text-gray-800 rounded-lg hover:bg-gray-300 transition-colors duration-200 dark:bg-slate-700 dark:text-white dark:hover:bg-slate-600"
-                    >
-                      Cancel
-                    </button>
-                    <button
-                      type="submit"
-                      disabled={isSubmitting}
-                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
-                    >
-                      {isSubmitting ? 'Posting...' : 'Post'}
-                    </button>
-                  </div>
-                </form>
-              </div>
-            </div>
+            </form>
           </div>
         </div>
       )}
+      <style>{`
+        @keyframes fadeIn {
+          0% { opacity: 0; transform: scale(0.97);}
+          100% { opacity: 1; transform: scale(1);}
+        }
+        .animate-fadeIn {
+          animation: fadeIn 0.25s cubic-bezier(.4,0,.2,1);
+        }
+      `}</style>
     </>
   );
-
 };
+
 
 export default TopBar;

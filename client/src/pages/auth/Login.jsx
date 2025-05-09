@@ -54,11 +54,47 @@ const Login = () => {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-blue-50 to-indigo-100 dark:from-slate-900 dark:to-blue-900 p-4">
       <div className="w-full max-w-md">
-        <div className="text-center mb-10">
-          <img src="/assets/images/logo.svg" alt="SkillSync Logo" className="h-16 w-16 mx-auto" />
-          <h1 className="mt-4 text-3xl font-bold text-gray-900 dark:text-white">Welcome back</h1>
-          <p className="mt-2 text-gray-600 dark:text-gray-300">Sign in to continue your learning journey</p>
+      <div className="text-center mb-10">
+        <Link to="/" className="inline-block group">
+          <div className="flex flex-col items-center space-y-3 transform transition-transform hover:scale-105 duration-300">
+            <div className="relative">
+              <div className="h-16 w-16 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center animate-pulse-slow shadow-lg">
+                <span className="text-white font-bold text-2xl">S</span>
+              </div>
+              <div className="absolute -top-1 -right-1 h-5 w-5 rounded-full bg-green-400 animate-bounce shadow-md"></div>
+            </div>
+            
+            <div className="flex flex-col items-center">
+              <div className="relative overflow-hidden">
+                <span className="text-3xl font-bold flex">
+                  <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent animate-pulse-slow transform hover:translate-y-1 transition-transform duration-300">
+                    Skill
+                  </span>
+                  <span className="bg-gradient-to-r from-indigo-600 to-blue-600 bg-clip-text text-transparent animate-pulse-slow transform hover:translate-y-1 transition-transform duration-300" style={{ animationDelay: '1s' }}>
+                    Sync
+                  </span>
+                </span>
+                <div className="h-1 w-full bg-gradient-to-r from-blue-600 via-indigo-600 to-blue-600 transform translate-y-0.5 rounded-full animate-pulse-slow" style={{ animationDelay: '0.5s' }}></div>
+              </div>
+            </div>
+          </div>
+        </Link>
+        
+        <div className="mt-8 space-y-3">
+          <h1 className="text-4xl font-bold text-gray-900 dark:text-white">
+            Welcome <span className="bg-gradient-to-r from-blue-600 to-indigo-600 bg-clip-text text-transparent">Back</span>
+          </h1>
+          <p className="text-lg text-gray-600 dark:text-gray-300 max-w-md mx-auto">
+            Sign in to continue your learning journey and connect with your community
+          </p>
+          <div className="flex justify-center space-x-2">
+            <span className="inline-block h-2 w-2 rounded-full bg-blue-600 animate-pulse"></span>
+            <span className="inline-block h-2 w-2 rounded-full bg-indigo-600 animate-pulse" style={{ animationDelay: '0.2s' }}></span>
+            <span className="inline-block h-2 w-2 rounded-full bg-blue-600 animate-pulse" style={{ animationDelay: '0.4s' }}></span>
+          </div>
         </div>
+      </div>
+
         
         <div className="bg-white dark:bg-slate-800 rounded-2xl shadow-xl backdrop-blur-sm backdrop-filter bg-opacity-80 dark:bg-opacity-80 p-8 border border-gray-200 dark:border-slate-700">
           <form onSubmit={handleSubmit} className="space-y-6">
